@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Авторизация и регистрация</title>
+</head>
+<body>
+
+<!-- Форма регистрации -->
+
+<form action="" method="POST">
+    <label>Имя</label>
+    <label style="color: #4b1010"><?php if (isset($errors['name'])) {
+            echo $errors['name'];
+        } ?></label>
+    <input type="text" name="name" placeholder="Введите имя">
+    <label>E-mail</label>
+    <label style="color: #4b1010"><?php if (isset($errors['email'])) {
+            echo $errors['email'];
+        } ?></label>
+    <input type="email" name="email" placeholder="Введите E-mail">
+    <label>Телефон</label>
+    <label style="color: #4b1010"><?php if (isset($errors['phone'])) {
+            echo $errors['phone'];
+        } ?></label>
+    <input type="tel" name="phone" placeholder="Введите телефон">
+    <label>Пароль</label>
+    <label style="color: #4b1010"><?php if (isset($errors['password'])) {
+            echo $errors['password'];
+        } ?></label>
+    <input type="password" name="password" placeholder="Придумайте пароль">
+    <label>Подтверждение пароля</label>
+    <label style="color: #4b1010"><?php if (isset($errors['psw'])) {
+            echo $errors['psw'];
+        } ?></label>
+    <input type="password" name="psw" placeholder="Повторите пароль">
+    <button type="submit" class="register-btn">Зарегистрироваться</button>
+    <p>
+        У вас уже есть аккаунт? - <a href="/login">Авторизируйтесь</a>!
+    </p>
+</form>
+</body>
+</html>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: Montserrat, sans-serif;
+    }
+
+    a {
+        color: #7c9ab7;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    p {
+        margin: 10px 0;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        width: 400px;
+    }
+
+    input {
+        margin: 10px 0;
+        padding: 10px;
+        border: unset;
+        border-bottom: 2px solid #1f0a42;
+        outline: none;
+    }
+
+    button {
+        padding: 10px;
+        background: #cbbbb4;
+        border: unset;
+        cursor: pointer;
+    }
+</style>
