@@ -1,4 +1,13 @@
-<!doctype html>
+<?php
+
+session_start();
+if (isset($_SESSION['user'])) {
+    header('Location: /main');
+}
+
+?>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">

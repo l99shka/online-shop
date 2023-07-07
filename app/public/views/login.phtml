@@ -1,4 +1,12 @@
-<!doctype html>
+<?php
+
+session_start();
+if (isset($_SESSION['user'])) {
+    header('Location: /main');
+}
+
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,6 +27,9 @@
             echo $errors['password'];
         } ?></label>
     <input type="password" name="password" placeholder="Введите пароль">
+    <label style="color: #4b1010"><?php if (isset($errorsLogin['errors'])) {
+            echo $errorsLogin['errors'];
+        } ?></label>
     <button type="submit" class="login-btn">Войти</button>
     <p>
         У вас нет аккаунта? - <a href="/signup">зарегистрируйтесь</a>!
