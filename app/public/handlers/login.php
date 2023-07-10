@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST")
     }
 }
 
-require_once "../views/login.phtml";
+require_once "./views/login.phtml";
 
 function isValidLogin(array $data):array
 {

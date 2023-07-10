@@ -1,7 +1,11 @@
 <?php
 $requestUri = $_SERVER['REQUEST_URI'];
 
-if ($requestUri === '/signup')
+
+if ($requestUri === '/')
+{
+    require_once './views/main.phtml';
+} elseif ($requestUri === '/signup')
 {
     require_once './handlers/signup.php';
 
@@ -18,6 +22,6 @@ if ($requestUri === '/signup')
     require_once './views/logout.phtml';
 
 } else {
-    echo 'NOT FOUND';
+    require_once './views/notFound.html';
 }
 

@@ -5,6 +5,9 @@ if (!isset($_SESSION['user'])) {
     header('Location: /login');
 }
 
+$conn = new PDO('pgsql:host=db;dbname=dbname', 'dbuser', 'dbpwd');
+$stmt = $conn->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <div class="profile">
@@ -13,8 +16,194 @@ if (!isset($_SESSION['user'])) {
     <a class="profile-exit profile-button" href="/logout"><svg class="profile-icon" width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 9L11.125 0.5V6.5H5.125V11.5H11.125V17.5L20 9Z" fill="#C5C5C5"></path><path d="M2.10601 14.452V3.548C2.12401 3.172 2.27701 2.491 3.11601 2.491H8.14301V0.5H3.11601C0.938006 0.5 0.112006 2.31 0.0870056 3.527V14.473C0.112006 15.689 0.938006 17.5 3.11601 17.5H8.14301V15.51H3.11601C2.27701 15.51 2.12401 14.827 2.10601 14.452Z" fill="#C5C5C5"></path></svg></a>
 </div>
 
+<div class="container">
+    <h3>Каталог</h3>
+    <div class="card-deck">
+        <div class="card text-center">
+            <a href="#">
+                <div class="card-header">
+                    Hit!
+                </div>
+                <img class="card-img-top" src="https://store-apple.msk.ru/image/cache/wp/gj/acsessuary/cehli/xs-max/silikonovii-cehol-iphonexsmax-krasnii1-400x400.webp" alt="Card image">
+                <div class="card-body">
+                    <p class="card-text text-muted">
+                        <?php
+                        foreach ($stmt as $elem)
+                        {
+                            if ($elem['description'] === 'Iphone X')
+                            {
+                                echo $elem['name'];
+                                break;
+                            }
+                        }
+                        ?></p>
+                    <a href="#"><h5 class="card-title">
+                            <?php
+                            foreach ($stmt as $elem)
+                            {
+                                if ($elem['description'] === 'Iphone X')
+                                {
+                                    echo $elem['description'];
+                                    break;
+                                }
+                            }
+                            ?></h5></a>
+                    <div class="card-footer">
+                        <?php
+                        foreach ($stmt as $elem)
+                        {
+                            if ($elem['description'] === 'Iphone X')
+                            {
+                                echo $elem['price'];
+                                break;
+                            }
+                        }
+                        ?>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="card text-center">
+            <a href="#">
+                <div class="card-header">
+                    Hit!
+                </div>
+                <img class="card-img-top" src="https://store-apple.msk.ru/image/cache/wp/gj/acsessuary/cehli/xs-max/silikonovii-cehol-iphonexsmax-krasnii-400x400.webp" alt="Card image">
+                <div class="card-body">
+                    <p class="card-text text-muted">
+                        <?php
+                        foreach ($stmt as $elem)
+                        {
+                            if ($elem['description'] === 'Чехол для Iphone X')
+                            {
+                                echo $elem['name'];
+                                break;
+                            }
+                        }
+                        ?></p>
+                    <a href="#"><h5 class="card-title">
+                            <?php
+                            foreach ($stmt as $elem)
+                            {
+                                if ($elem['description'] === 'Чехол для Iphone X')
+                                {
+                                    echo $elem['description'];
+                                    break;
+                                }
+                            }
+                            ?>
+                        </h5></a>
+                    <div class="card-footer">
+                        <?php
+                        foreach ($stmt as $elem)
+                        {
+                            if ($elem['description'] === 'Чехол для Iphone X')
+                            {
+                                echo $elem['price'];
+                                break;
+                            }
+                        }
+                        ?>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="card text-center">
+            <a href="#">
+                <div class="card-header">
+                    Hit!
+                </div>
+                <img class="card-img-top" src="https://store-apple.msk.ru/image/cache/wp/ge/tovary/applewatch/series-8/apple-watch-series-8-thimnaya-noc-400x400.webp" alt="Card image">
+                <div class="card-body">
+                    <p class="card-text text-muted">
+                        <?php
+                        foreach ($stmt as $elem)
+                        {
+                            if ($elem['description'] === 'Apple Watch SE')
+                            {
+                                echo $elem['name'];
+                                break;
+                            }
+                        }
+                        ?></p>
+                    <a href="#"><h5 class="card-title">
+                            <?php
+                            foreach ($stmt as $elem)
+                            {
+                                if ($elem['description'] === 'Apple Watch SE')
+                                {
+                                    echo $elem['description'];
+                                    break;
+                                }
+                            }
+                            ?>
+                        </h5></a>
+                    <div class="card-footer">
+                        <?php
+                        foreach ($stmt as $elem)
+                        {
+                            if ($elem['description'] === 'Apple Watch SE')
+                            {
+                                echo $elem['price'];
+                                break;
+                            }
+                        }
+                        ?>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="card text-center">
+            <a href="#">
+                <div class="card-header">
+                    Hit!
+                </div>
+                <img class="card-img-top" src="https://store-apple.msk.ru/image/cache/wp/gj/acsessuary/watch/mokka-milanese-loop-kakao2-400x400.webp" alt="Card image">
+                <div class="card-body">
+                    <p class="card-text text-muted">
+                        <?php
+                        foreach ($stmt as $elem)
+                        {
+                            if ($elem['description'] === 'ремень для Apple Watch SE')
+                            {
+                                echo $elem['name'];
+                                break;
+                            }
+                        }
+                        ?>
+                    </p>
+                    <a href="#"><h5 class="card-title">
+                            <?php
+                            foreach ($stmt as $elem)
+                            {
+                                if ($elem['description'] === 'ремень для Apple Watch SE')
+                                {
+                                    echo $elem['description'];
+                                    break;
+                                }
+                            }
+                            ?>
+                        </h5></a>
+                    <div class="card-footer">
+                        <?php
+                        foreach ($stmt as $elem)
+                        {
+                            if ($elem['description'] === 'ремень для Apple Watch SE')
+                            {
+                                echo $elem['price'];
+                                break;
+                            }
+                        }
+                        ?>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
 <style>
-    /* рандомный стиль, чтобы выделить кнопку */
+
     body {
         background-color: #f6f7f8;
     }
@@ -27,7 +216,7 @@ if (!isset($_SESSION['user'])) {
     /* общие стили для всех кнопок авторизации, включая кнопки входа, корорые были на макете главной */
     .profile-button {
         background-color: #faf8f8;
-        padding: 12px 0;
+        padding: 12px;
         font-size: 21px;
         line-height: 21px;
         text-decoration: none;
@@ -61,6 +250,53 @@ if (!isset($_SESSION['user'])) {
     .profile-exit {
         padding-right: 10px;
         padding-left: 17px;
+    }
+
+    body {
+        font-style: normal;
+    }
+
+    a {
+        text-decoration: none;
+        font-size: 23px;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    h3 {
+        line-height: 3em;
+        text-align: center;
+    }
+
+    .card {
+        float: left; /*Задаем обтекание*/
+        margin-right: 20px;
+        margin-left: 35px;
+
+
+    }
+
+    .card:hover {
+        box-shadow: 1px 2px 10px lightgray;
+        transition: 0.2s;
+    }
+
+    .card-header {
+        font-size: 13px;
+        color: gray;
+        background-color: white;
+    }
+
+    .text-muted {
+        font-size: 22px;
+    }
+
+    .card-footer{
+        font-weight: bold;
+        font-size: 18px;
+        background-color: white;
     }
 
 </style>
