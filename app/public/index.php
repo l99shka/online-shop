@@ -15,11 +15,11 @@ if ($requestUri === '/')
 
 } elseif ($requestUri === '/main')
 {
-    require_once './views/main.phtml';
+    require_once './handlers/main.php';
 
 } elseif ($requestUri === '/logout')
 {
-    require_once './views/logout.phtml';
+    require_once './handlers/logout.php';
 
 } else {
     require_once './views/notFound.html';

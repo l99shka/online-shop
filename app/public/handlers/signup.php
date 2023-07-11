@@ -32,9 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST")
         echo 'пароль ' . $res['password'];
     }
 }
-
-require_once './views/signup.phtml';
-
 function isValidSignUp(array $data, PDO $conn):array
 {
     $errors = [];
@@ -42,84 +39,92 @@ function isValidSignUp(array $data, PDO $conn):array
     if (!isset($data['name']))
     {
         $errors['name'] = 'Name is required';
+
+    } elseif (empty($data['name']))
+    {
+        $errors['name'] = '* Ввведите Имя';
+
+    } elseif (strlen($data['name']) < 2 || strlen($data['name']) > 40)
+    {
+        $errors['name'] = '* Имя не может быть меньше 2 и больше 20 символов';
     }
 
-    $name = $data['name'];
-    if (empty($name))
-    {
-        $errors['name'] = '*Ввведите Имя';
-    } elseif (strlen($name) < 2 || strlen($name) > 40)
-    {
-        $errors['name'] = '*Имя не может быть меньше 2 и больше 20 символов';
-    }
 
 
     if (!isset($data['email']))
     {
         $errors['email'] = 'Email is required';
+    } elseif (empty($data['email']))
+    {
+        $errors['email'] = '* Ввведите E-mail';
+
+    } elseif (strlen($data['email']) < 2 || strlen($data['email']) > 40)
+    {
+        $errors['email'] = '* E-mail не может быть меньше 2 и больше 40 символов';
+
+    } else {
+        $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt->execute(['email' => $data['email']]);
+
+        $userData = $stmt->fetch();
+
+        if (!empty($userData))
+        {
+            $errors['email'] = '* Такой E-mail уже сущесвует';
+        }
     }
 
-    $email = $data['email'];
-    if (empty($email))
-    {
-        $errors['email'] = '*Ввведите E-mail';
-    } elseif (strlen($email) < 2 || strlen($email) > 40)
-    {
-        $errors['email'] = '*E-mail не может быть меньше 2 и больше 40 символов';
-    }
-
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
-    $stmt->execute(['email' => $email]);
-
-    $userData = $stmt->fetch();
-
-    if (!empty($userData))
-    {
-        $errors['email'] = 'Такой E-mail уже сущесвует';
-    }
 
 
     if (!isset($data['phone']))
     {
         $errors['phone'] = 'Phone is required';
+
+    } elseif (empty($data['phone']))
+    {
+        $errors['phone'] = '* Введите телефон';
+
+    } elseif (strlen($data['phone']) < 2 || strlen($data['phone']) > 40)
+    {
+        $errors['phone'] = '* Телефон не может быть меньше 2 и больше 40 символов';
     }
 
-    $phone = $data['phone'];
-    if (empty($phone))
-    {
-        $errors['phone'] = '*Введите телефон';
-    } elseif (strlen($phone) < 2 || strlen($phone) > 40)
-    {
-        $errors['phone'] = '*Телефон не может быть меньше 2 и больше 40 символов';
-    }
+
 
     if (!isset($data['password']))
     {
         $errors['password'] = 'Password is required';
+
+    } elseif (empty($data['password']))
+    {
+        $errors['password'] = '* Введите пароль';
+
+    } elseif (strlen($data['password']) < 2 || strlen($data['password']) > 40)
+    {
+        $errors['password'] = '* Пароль не может быть меньше 2 и больше 40';
     }
 
-    $password = $data['password'];
-    if (empty($password))
-    {
-        $errors['password'] = '*Введите пароль';
-    } elseif (strlen($password) < 2 || strlen($password) > 40)
-    {
-        $errors['password'] = '*Пароль не может быть меньше 2 и больше 40';
-    }
+
 
     if (!isset($data['psw']))
     {
         $errors['psw'] = 'Psw is required';
-    }
 
-    $psw = $data['psw'];
-    if (empty($psw))
+    } elseif (empty($data['psw']))
     {
-        $errors['psw'] = '*Повторите пароль';
-    } elseif ($psw !== $password)
+        $errors['psw'] = '* Повторите пароль';
+
+    } elseif ($data['psw'] !== $data['password'])
     {
-        $errors['psw'] = '*Пароли не совпадают';
+        $errors['psw'] = '* Пароли не совпадают';
     }
 
     return $errors;
 }
+
+//session_start();
+if (isset($_COOKIE['user'])) {
+    header('Location: /main');
+}
+
+require_once './views/signup.phtml';
