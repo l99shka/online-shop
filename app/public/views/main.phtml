@@ -17,7 +17,6 @@
                     <img class="card-img-top" width="300" height="400" src="<?php echo $product['image_url']; ?>" alt="Card image">
                     <div class="card-body">
                         <input type="text" name="product_id" hidden="true" value="<?php echo $product['id']; ?>">
-                        <input type="text" name="user_id" hidden="true" value="<?php echo $profileId; ?>">
                         <p class="card-text text-muted">
                             <?php echo $product['name'];?>
                             <a href="#"><h5 class="card-title"><?php echo $product['description'];?></h5></a>
@@ -25,7 +24,7 @@
                             <?php echo $product['price'];?>
                         </div>
                     </div>
-                    <button type="submit" class="login-btn">Добавить в корзину</button>
+                    <button type="submit">Добавить в корзину</button>
                 </a>
             </div>
         </form>
