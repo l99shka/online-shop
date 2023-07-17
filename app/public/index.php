@@ -3,24 +3,41 @@
 $requestUri = $_SERVER['REQUEST_URI'];
 
 if ($requestUri === '/') {
-    require_once './handlers/main.php';
+    require_once '../Controller/MainController.php';
+    $main = new MainController();
+    $main->main();
 } elseif ($requestUri === '/signup') {
-    require_once './handlers/signup.php';
+    require_once '../Controller/UserController.php';
+    $user = new UserController();
+    $user->signup();
 } elseif ($requestUri === '/login') {
-    $login = new UserController();
-    $login->login();
+    require_once '../Controller/UserController.php';
+    $user = new UserController();
+    $user->login();
 } elseif ($requestUri === '/main') {
-    require_once './handlers/main.php';
+    require_once '../Controller/MainController.php';
+    $main = new MainController();
+    $main->main();
 } elseif ($requestUri === '/logout') {
-    require_once './handlers/logout.php';
+    require_once '../Controller/UserController.php';
+    $user = new UserController();
+    $user->logout();
 } elseif ($requestUri === '/add-product') {
-    require_once './handlers/add-product.php';
+    require_once '../Controller/CartsController.php';
+    $carts = new CartsController();
+    $carts->addProduct();
 } elseif ($requestUri === '/carts') {
-    require_once './handlers/carts.php';
+    require_once '../Controller/CartsController.php';
+    $carts = new CartsController();
+    $carts->carts();
 } elseif ($requestUri === '/delete') {
-    require_once './handlers/delete-product.php';
+    require_once '../Controller/CartsController.php';
+    $carts = new CartsController();
+    $carts->deleteProduct();
 } elseif ($requestUri === '/delete-carts') {
-    require_once './handlers/delete-carts.php';
+    require_once '../Controller/CartsController.php';
+    $carts = new CartsController();
+    $carts->deleteCarts();
 } else {
-    require_once './views/notFound.html';
+    require_once '../View/notFound.html';
 }
