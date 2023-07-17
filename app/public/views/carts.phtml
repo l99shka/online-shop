@@ -1,0 +1,121 @@
+
+<form action="/delete" method="POST" id="cart">
+    <table>
+
+        <caption>Ваша корзина, <?php echo $profileName;  ?></caption>
+
+        <tr>
+
+            <th scope="col">Название товара</th>
+            <th scope="col">Количество</th>
+            <th scope="col">Цена</th>
+
+        </tr>
+<?php foreach ($result as $res): ?>
+        <tr>
+            <td><?php echo $res['name']; ?></td>
+            <td><?php echo $res['quantity']; ?></td>
+            <td><?php echo $res['total_price'] . ' руб.'; ?>
+                <input type="text" name="product_id" hidden="true" value="<?php echo $res['product_id']; ?>">
+                <button type="submit"><img class="profile-icon" width="20" height="19" src="data:image/png;base64,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" alt="LALA"></button>
+            </td>
+        </tr>
+<?php endforeach; ?>
+    </table>
+
+    <label><?php echo $sumPrice;   ?></label>
+
+    </form>
+
+<form action="/delete-carts" method="POST" id="cart">
+    <div>
+        <button type="submit">Удалить все</button>
+    </div>
+
+</form>
+
+<form action="/main" method="POST" id="cart">
+    <div>
+        <button type="submit">На главную</button>
+    </div>
+
+</form>
+
+
+<style>
+    body {
+        margin: 0;
+        padding: 2em 0;
+        font: 100% Arial, sans-serif;
+    }
+
+    #cart {
+        width: 36em;
+        margin: 2em;
+    }
+
+    #cart table {
+        width: 100%;
+        border-collapse: collapse;
+        border-bottom: 1px solid #ccc;
+        border-spacing: 0;
+    }
+
+    #cart table tr:nth-child(odd) {
+
+        background: #fdfbfb;
+
+    }
+
+    #cart table caption {
+        text-transform: uppercase;
+        text-align: left;
+        padding-bottom: 4px;
+    }
+
+    #cart table th {
+        text-align: left;
+        padding: 5px;
+        background: #08c;
+        color: #fff;
+        border-left: 1px solid;
+    }
+
+    #cart table td {
+        padding: 5px;
+        border-bottom: 1px solid #261818;
+    }
+
+    #cart table td input {
+        font: 1em Arial, sans-serif;
+        border: 1px solid #ccc;
+        background: #fff;
+    }
+
+    #cart div {
+        margin: 1em 0;
+        text-align: center;
+    }
+
+    #cart div button {
+        padding: 0.3em 1.2em;
+        background: #08c;
+        color: #fff;
+        display: inline-block;
+        text-decoration: none;
+        margin-right: 0.5em;
+        border: none;
+        font: 1em Arial, sans-serif;
+    }
+
+
+
+    #cart div input {
+        border: none;
+        padding: 0.3em 1.2em;
+        background: #08c;
+        color: #fff;
+        display: inline-block;
+        font: 1em Arial, sans-serif;
+    }
+</style>

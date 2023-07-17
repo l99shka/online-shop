@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
             session_start();
 
-            $_SESSION['user_id'] = ['id' => $userData['id'], 'email' => $userData['email']];
+            $_SESSION['user_id'] = ['id' => $userData['id'], 'email' => $userData['email'], 'name' => $userData['name']];
             header('Location: /main');
         } else {
             $errorsLogin['errors'] = '* Неверный логин или пароль';
