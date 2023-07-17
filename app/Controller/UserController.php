@@ -10,14 +10,11 @@ class UserController
 
             if (empty($errors)) {
 
-                $email = $_POST['email'];
                 $password = $_POST['password'];
 
-                $conn = new PDO('pgsql:host=db;dbname=dbname', 'dbuser', 'dbpwd');
-
-                $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
-                $stmt->execute(['email' => $email]);
-                $userData = $stmt->fetch();
+                require_once "../Model/User.php";
+                $user = new User();
+                $userData = $user->getUser();
 
                 if (!empty($userData) && password_verify($password, $userData['password'])) {
 
@@ -66,24 +63,16 @@ class UserController
     {
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
-            $conn = new PDO('pgsql:host=db;dbname=dbname', 'dbuser', 'dbpwd');
-
-            $errors = $this->isValidSignUp($_POST, $conn);
+            $errors = $this->isValidSignUp($_POST);
 
             if (empty($errors)) {
 
                 session_start();
                 header('Location: /login');
 
-                $name = $_POST['name'];
-                $email = $_POST['email'];
-                $phone = $_POST['phone'];
-                $password = $_POST['password'];
-
-                $password = password_hash($password, PASSWORD_DEFAULT);
-
-                $stmt = $conn->prepare("INSERT INTO users (name, email, phone, password) VALUES (:name, :email, :phone, :password)");
-                $stmt->execute(['name' => $name, 'email' => $email, 'phone' => $phone, 'password' => $password]);
+                require_once "../Model/User.php";
+                $user = new User();
+                $user->rememberUser();
 
 //        $stmt = $conn->prepare("SELECT * FROM users WHERE name = :name AND email = :email");
 //        $stmt->execute(['name' => $name, 'email' => $email]);
@@ -105,7 +94,7 @@ class UserController
 
         require_once '../View/signup.phtml';
     }
-        private function isValidSignUp(array $data, PDO $conn):array
+        private function isValidSignUp(array $data):array
         {
             $errors = [];
 
@@ -126,9 +115,9 @@ class UserController
             } elseif (strlen($data['email']) < 2 || strlen($data['email']) > 40) {
                 $errors['email'] = '* E-mail не может быть меньше 2 и больше 40 символов';
             } else {
-                $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
-                $stmt->execute(['email' => $data['email']]);
-                $userData = $stmt->fetch();
+                require_once "../Model/User.php";
+                $user = new User();
+                $userData = $user->getUser();
 
                 if (!empty($userData)) {
                     $errors['email'] = '* Такой E-mail уже сущесвует';

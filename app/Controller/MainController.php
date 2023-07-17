@@ -12,8 +12,9 @@ class MainController
 
         $profileEmail = $_SESSION['user_id']['email'];
 
-        $conn = new PDO('pgsql:host=db;dbname=dbname', 'dbuser', 'dbpwd');
-        $products = $conn->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
+        require_once "../Model/Product.php";
+        $product = new Product();
+        $products = $product->getProduct();
 
         require_once "../View/main.phtml";
     }
