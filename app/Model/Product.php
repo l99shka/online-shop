@@ -2,12 +2,14 @@
 
 class Product
 {
-    public function getProduct():array
+    private PDO $conn;
+    public function __construct()
     {
         require_once "../Model/Connect.php";
-        $connect = new Connect();
-        $conn = $connect->connect();
-
-        return $conn->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
+        $this->conn = ConnectFactory::create();
+    }
+    public function getAll():array
+    {
+        return $this->conn->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
     }
 }

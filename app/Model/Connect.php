@@ -1,9 +1,14 @@
 <?php
 
-class Connect
+class ConnectFactory
 {
-    public function connect():PDO
+    private static PDO $conn;
+    public static function create():PDO
     {
-        return new PDO('pgsql:host=db;dbname=dbname', 'dbuser', 'dbpwd');
+        if (isset(static::$conn)) {
+            return static::$conn;
+        }
+           static::$conn = new PDO('pgsql:host=db;dbname=dbname', 'dbuser', 'dbpwd');
+           return static::$conn;
     }
 }

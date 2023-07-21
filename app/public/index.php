@@ -5,7 +5,7 @@ $requestUri = $_SERVER['REQUEST_URI'];
 if ($requestUri === '/') {
     require_once '../Controller/MainController.php';
     $main = new MainController();
-    $main->main();
+    $main->description();
 } elseif ($requestUri === '/signup') {
     require_once '../Controller/UserController.php';
     $user = new UserController();
@@ -17,7 +17,7 @@ if ($requestUri === '/') {
 } elseif ($requestUri === '/main') {
     require_once '../Controller/MainController.php';
     $main = new MainController();
-    $main->main();
+    $main->description();
 } elseif ($requestUri === '/logout') {
     require_once '../Controller/UserController.php';
     $user = new UserController();
@@ -25,19 +25,19 @@ if ($requestUri === '/') {
 } elseif ($requestUri === '/add-product') {
     require_once '../Controller/CartsController.php';
     $carts = new CartsController();
-    $carts->addProduct();
+    $carts->addProducts();
 } elseif ($requestUri === '/carts') {
     require_once '../Controller/CartsController.php';
     $carts = new CartsController();
-    $carts->carts();
+    $carts->description();
 } elseif ($requestUri === '/delete') {
     require_once '../Controller/CartsController.php';
     $carts = new CartsController();
-    $carts->deleteProduct();
+    $carts->deleteProducts();
 } elseif ($requestUri === '/delete-carts') {
     require_once '../Controller/CartsController.php';
     $carts = new CartsController();
-    $carts->deleteCarts();
+    $carts->deleteAll();
 } else {
     require_once '../View/notFound.html';
 }

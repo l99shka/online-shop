@@ -14,7 +14,7 @@ class UserController
 
                 require_once "../Model/User.php";
                 $user = new User();
-                $userData = $user->getUser();
+                $userData = $user->get($_POST['email']);
 
                 if (!empty($userData) && password_verify($password, $userData['password'])) {
 
@@ -70,19 +70,13 @@ class UserController
                 session_start();
                 header('Location: /login');
 
+                $password = $_POST['password'];
+                $hash = password_hash($password, PASSWORD_DEFAULT);
+
                 require_once "../Model/User.php";
                 $user = new User();
-                $user->rememberUser();
+                $user->save($_POST['name'], $_POST['email'], $_POST['phone'], $hash);
 
-//        $stmt = $conn->prepare("SELECT * FROM users WHERE name = :name AND email = :email");
-//        $stmt->execute(['name' => $name, 'email' => $email]);
-//        $res = $stmt->fetch();
-//
-//        echo 'id ' . $res['id'] . "<br>";
-//        echo 'имя ' . $res['name'] . "<br>";
-//        echo 'email ' . $res['email'] . "<br>";
-//        echo 'телефон ' . $res['phone'] . "<br>";
-//        echo 'пароль ' . $res['password'];
             }
         }
 
@@ -117,7 +111,7 @@ class UserController
             } else {
                 require_once "../Model/User.php";
                 $user = new User();
-                $userData = $user->getUser();
+                $userData = $user->get($_POST['email']);
 
                 if (!empty($userData)) {
                     $errors['email'] = '* Такой E-mail уже сущесвует';

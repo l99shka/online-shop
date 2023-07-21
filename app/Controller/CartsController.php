@@ -2,25 +2,25 @@
 
 class CartsController
 {
-    public function carts()
+    public function description(): void
     {
         session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
+        } else {
+            $profileName = $_SESSION['user_id']['name'];
         }
-
-        $profileName = $_SESSION['user_id']['name'];
 
         require_once "../Model/Cart.php";
         $carts = new Cart();
-        $result = $carts->getDescription();
+        $result = $carts->getDescription($_SESSION['user_id']['id']);
 
         $sumPrice = 'ИТОГО: ' . array_sum(array_column($result, 'total_price')) . ' руб.';
 
         require_once "../View/carts.phtml";
     }
 
-    public function addProduct()
+    public function addProducts(): void
     {
         session_start();
 
@@ -35,11 +35,11 @@ class CartsController
 
             require_once "../Model/Cart.php";
             $carts = new Cart();
-            $carts->remember();
+            $carts->addProducts($_SESSION['user_id']['id'], $_POST['product_id']);
         }
     }
 
-    public function deleteCarts()
+    public function deleteAll(): void
     {
         session_start();
         if (!isset($_SESSION['user_id'])) {
@@ -52,12 +52,12 @@ class CartsController
 
             require_once "../Model/Cart.php";
             $carts = new Cart();
-            $carts->delete();
+            $carts->deleteAll($_SESSION['user_id']['id']);
 
         }
     }
 
-    public function deleteProduct()
+    public function deleteProducts(): void
     {
         session_start();
         if (!isset($_SESSION['user_id'])) {
@@ -70,7 +70,7 @@ class CartsController
 
             require_once "../Model/Cart.php";
             $carts = new Cart();
-            $carts->deleteProduct();
+            $carts->deleteProducts($_SESSION['user_id']['id'], $_POST['product_id']);
 
         }
     }
