@@ -1,8 +1,13 @@
 <?php
 
+namespace App\Controller;
+
+use App\Model\User;
+
+
 class UserController
 {
-    public function login()
+    public function login(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
@@ -12,9 +17,8 @@ class UserController
 
                 $password = $_POST['password'];
 
-                require_once "../Model/User.php";
                 $user = new User();
-                $userData = $user->get($_POST['email']);
+                $userData = $user->getEmail($_POST['email']);
 
                 if (!empty($userData) && password_verify($password, $userData['password'])) {
 
@@ -59,7 +63,7 @@ class UserController
         }
 
 
-    public function signup()
+    public function signup(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
@@ -73,7 +77,6 @@ class UserController
                 $password = $_POST['password'];
                 $hash = password_hash($password, PASSWORD_DEFAULT);
 
-                require_once "../Model/User.php";
                 $user = new User();
                 $user->save($_POST['name'], $_POST['email'], $_POST['phone'], $hash);
 
@@ -109,9 +112,8 @@ class UserController
             } elseif (strlen($data['email']) < 2 || strlen($data['email']) > 40) {
                 $errors['email'] = '* E-mail не может быть меньше 2 и больше 40 символов';
             } else {
-                require_once "../Model/User.php";
                 $user = new User();
-                $userData = $user->get($_POST['email']);
+                $userData = $user->getEmail($_POST['email']);
 
                 if (!empty($userData)) {
                     $errors['email'] = '* Такой E-mail уже сущесвует';
@@ -153,7 +155,7 @@ class UserController
         }
 
 
-    public function logout()
+    public function logout(): void
     {
         session_start();
 

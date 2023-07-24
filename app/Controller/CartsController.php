@@ -1,8 +1,12 @@
 <?php
 
+namespace App\Controller;
+
+use App\Model\Cart;
+
 class CartsController
 {
-    public function description(): void
+    public function getDescription(): void
     {
         session_start();
         if (!isset($_SESSION['user_id'])) {
@@ -11,7 +15,6 @@ class CartsController
             $profileName = $_SESSION['user_id']['name'];
         }
 
-        require_once "../Model/Cart.php";
         $carts = new Cart();
         $result = $carts->getDescription($_SESSION['user_id']['id']);
 
@@ -20,7 +23,7 @@ class CartsController
         require_once "../View/carts.phtml";
     }
 
-    public function addProducts(): void
+    public function addProduct(): void
     {
         session_start();
 
@@ -33,9 +36,8 @@ class CartsController
 
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
-            require_once "../Model/Cart.php";
             $carts = new Cart();
-            $carts->addProducts($_SESSION['user_id']['id'], $_POST['product_id']);
+            $carts->addProduct($_SESSION['user_id']['id'], $_POST['product_id']);
         }
     }
 
@@ -50,14 +52,13 @@ class CartsController
 
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
-            require_once "../Model/Cart.php";
             $carts = new Cart();
             $carts->deleteAll($_SESSION['user_id']['id']);
 
         }
     }
 
-    public function deleteProducts(): void
+    public function deleteProduct(): void
     {
         session_start();
         if (!isset($_SESSION['user_id'])) {
@@ -68,9 +69,8 @@ class CartsController
 
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
-            require_once "../Model/Cart.php";
             $carts = new Cart();
-            $carts->deleteProducts($_SESSION['user_id']['id'], $_POST['product_id']);
+            $carts->deleteProduct($_SESSION['user_id']['id'], $_POST['product_id']);
 
         }
     }

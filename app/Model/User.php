@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Model;
+
+use PDO;
+
 class User
 {
     private PDO $conn;
@@ -8,7 +12,7 @@ class User
         require_once "../Model/Connect.php";
         $this->conn = ConnectFactory::create();
     }
-    public function get(string $email):array|false
+    public function getEmail(string $email):array|false
     {
         $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = :email");
         $stmt->execute(['email' => $email]);

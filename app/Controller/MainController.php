@@ -1,8 +1,11 @@
 <?php
 
+namespace App\Controller;
+
+use App\Model\Product;
 class MainController
 {
-    public function description()
+    public function description(): void
     {
         session_start();
 
@@ -12,7 +15,6 @@ class MainController
             $profileEmail = $_SESSION['user_id']['email'];
         }
 
-        require_once "../Model/Product.php";
         $product = new Product();
         $products = $product->getAll();
 

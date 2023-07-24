@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Model;
+
+use PDO;
+
 class Cart
 {
     private PDO $conn;
@@ -17,7 +21,7 @@ class Cart
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function addProducts(int $userID, int $productID): void
+    public function addProduct(int $userID, int $productID): void
     {
         $stmt = $this->conn->prepare("INSERT INTO carts (user_id, product_id, quantity) VALUES (:user_id, :product_id, 1)
                                 ON CONFLICT (user_id, product_id) DO UPDATE SET quantity = excluded.quantity + carts.quantity");
@@ -33,7 +37,7 @@ class Cart
 
     }
 
-    public function deleteProducts(int $userID, int $productID): void
+    public function deleteProduct(int $userID, int $productID): void
     {
         $stmt = $this->conn->prepare('DELETE FROM carts WHERE user_id = :user_id AND product_id = :product_id');
         $stmt->execute(['user_id' => $userID, 'product_id' => $productID]);

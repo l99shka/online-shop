@@ -1,42 +1,48 @@
 <?php
 
+spl_autoload_register(function($class) {
+    $path = str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
+
+    $appRoot = dirname(__DIR__);
+    $path = preg_replace('#^App#', $appRoot, $path);
+
+    if (file_exists($path)) {
+        require_once $path;
+        return true;
+    }
+
+    return false;
+});
+
 $requestUri = $_SERVER['REQUEST_URI'];
 
 if ($requestUri === '/') {
-    require_once '../Controller/MainController.php';
-    $main = new MainController();
+    $main = new App\Controller\MainController();
     $main->description();
 } elseif ($requestUri === '/signup') {
-    require_once '../Controller/UserController.php';
-    $user = new UserController();
+    $user = new App\Controller\UserController();
     $user->signup();
 } elseif ($requestUri === '/login') {
-    require_once '../Controller/UserController.php';
-    $user = new UserController();
+    $user = new App\Controller\UserController();
     $user->login();
 } elseif ($requestUri === '/main') {
-    require_once '../Controller/MainController.php';
-    $main = new MainController();
+
+    $main = new App\Controller\MainController();
     $main->description();
 } elseif ($requestUri === '/logout') {
-    require_once '../Controller/UserController.php';
-    $user = new UserController();
+    $user = new App\Controller\UserController();
     $user->logout();
 } elseif ($requestUri === '/add-product') {
-    require_once '../Controller/CartsController.php';
-    $carts = new CartsController();
-    $carts->addProducts();
+    $carts = new App\Controller\CartsController();
+    $carts->addProduct();
 } elseif ($requestUri === '/carts') {
-    require_once '../Controller/CartsController.php';
-    $carts = new CartsController();
-    $carts->description();
+    $carts = new App\Controller\CartsController();
+    $carts->getDescription();
 } elseif ($requestUri === '/delete') {
-    require_once '../Controller/CartsController.php';
-    $carts = new CartsController();
-    $carts->deleteProducts();
+    $carts = new App\Controller\CartsController();
+    $carts->deleteProduct();
 } elseif ($requestUri === '/delete-carts') {
-    require_once '../Controller/CartsController.php';
-    $carts = new CartsController();
+    $carts = new App\Controller\CartsController();
     $carts->deleteAll();
 } else {
     require_once '../View/notFound.html';
