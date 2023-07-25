@@ -7,38 +7,46 @@ use App\Model\User;
 
 class UserController
 {
-    public function login(): void
+    private User $user;
+    public function __construct()
     {
-        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+        $this->user = new User;
+    }
+    public function login(): array
+    {
+        $errors = [];
+        $errorsLogin = [];
 
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $errors = $this->isValidLogin($_POST);
 
             if (empty($errors)) {
-
                 $password = $_POST['password'];
 
-                $user = new User();
-                $userData = $user->getEmail($_POST['email']);
+                $userData = $this->user->getEmail($_POST['email']);
 
                 if (!empty($userData) && password_verify($password, $userData['password'])) {
-
                     session_start();
 
                     $_SESSION['user_id'] = ['id' => $userData['id'], 'email' => $userData['email'], 'name' => $userData['name']];
                     header('Location: /main');
                 } else {
-                    $errorsLogin['errors'] = '* Неверный логин или пароль';
+                    $errorsLogin = ['errors' => '* Неверный логин или пароль'];
                 }
             }
         }
-
         session_start();
 
         if (isset($_SESSION['user_id'])) {
             header('Location: /main');
         }
-
-        require_once "../View/login.phtml";
+        return [
+            'view' => 'login',
+            'data' => [
+                'errors' => $errors,
+                'errorsLogin' => $errorsLogin
+            ]
+        ];
     }
         private function isValidLogin(array $data):array
         {
@@ -50,46 +58,42 @@ class UserController
                 $errors['email'] = '* Ввведите E-mail';
             }
 
-
-
             if (!isset($data['password'])) {
                 $errors['password'] = 'Password is required';
             } elseif (empty($data['password'])) {
                 $errors['password'] = '* Введите пароль';
             }
-
-
             return $errors;
         }
 
 
-    public function signup(): void
+    public function signup(): array
     {
-        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+        $errors = [];
 
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $errors = $this->isValidSignUp($_POST);
 
             if (empty($errors)) {
-
                 session_start();
                 header('Location: /login');
 
                 $password = $_POST['password'];
                 $hash = password_hash($password, PASSWORD_DEFAULT);
 
-                $user = new User();
-                $user->save($_POST['name'], $_POST['email'], $_POST['phone'], $hash);
-
+                $this->user->save($_POST['name'], $_POST['email'], $_POST['phone'], $hash);
             }
         }
-
         session_start();
 
         if (isset($_SESSION['user_id'])) {
             header('Location: /main');
-        }
-
-        require_once '../View/signup.phtml';
+        } return [
+            'view' => 'signup',
+            'data' => [
+                'errors' => $errors
+            ]
+        ];
     }
         private function isValidSignUp(array $data):array
         {
@@ -103,8 +107,6 @@ class UserController
                 $errors['name'] = '* Имя не может быть меньше 2 и больше 20 символов';
             }
 
-
-
             if (!isset($data['email'])) {
                 $errors['email'] = 'Email is required';
             } elseif (empty($data['email'])) {
@@ -112,15 +114,12 @@ class UserController
             } elseif (strlen($data['email']) < 2 || strlen($data['email']) > 40) {
                 $errors['email'] = '* E-mail не может быть меньше 2 и больше 40 символов';
             } else {
-                $user = new User();
-                $userData = $user->getEmail($_POST['email']);
+                $userData = $this->user->getEmail($_POST['email']);
 
                 if (!empty($userData)) {
                     $errors['email'] = '* Такой E-mail уже сущесвует';
                 }
             }
-
-
 
             if (!isset($data['phone'])) {
                 $errors['phone'] = 'Phone is required';
@@ -130,8 +129,6 @@ class UserController
                 $errors['phone'] = '* Телефон не может быть меньше 2 и больше 40 символов';
             }
 
-
-
             if (!isset($data['password'])) {
                 $errors['password'] = 'Password is required';
             } elseif (empty($data['password'])) {
@@ -140,8 +137,6 @@ class UserController
                 $errors['password'] = '* Пароль не может быть меньше 2 и больше 40';
             }
 
-
-
             if (!isset($data['psw'])) {
                 $errors['psw'] = 'Psw is required';
             } elseif (empty($data['psw'])) {
@@ -149,12 +144,8 @@ class UserController
             } elseif ($data['psw'] !== $data['password']) {
                 $errors['psw'] = '* Пароли не совпадают';
             }
-
-
             return $errors;
         }
-
-
     public function logout(): void
     {
         session_start();

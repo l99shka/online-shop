@@ -14,36 +14,22 @@ spl_autoload_register(function($class) {
     return false;
 });
 
+$routes = require_once './../config/routes.php';
+
 $requestUri = $_SERVER['REQUEST_URI'];
 
-if ($requestUri === '/') {
-    $main = new App\Controller\MainController();
-    $main->description();
-} elseif ($requestUri === '/signup') {
-    $user = new App\Controller\UserController();
-    $user->signup();
-} elseif ($requestUri === '/login') {
-    $user = new App\Controller\UserController();
-    $user->login();
-} elseif ($requestUri === '/main') {
+if(isset($routes[$requestUri])) {
+    list($class, $method) = $routes[$requestUri];
 
-    $main = new App\Controller\MainController();
-    $main->description();
-} elseif ($requestUri === '/logout') {
-    $user = new App\Controller\UserController();
-    $user->logout();
-} elseif ($requestUri === '/add-product') {
-    $carts = new App\Controller\CartsController();
-    $carts->addProduct();
-} elseif ($requestUri === '/carts') {
-    $carts = new App\Controller\CartsController();
-    $carts->getDescription();
-} elseif ($requestUri === '/delete') {
-    $carts = new App\Controller\CartsController();
-    $carts->deleteProduct();
-} elseif ($requestUri === '/delete-carts') {
-    $carts = new App\Controller\CartsController();
-    $carts->deleteAll();
+    $obj = new $class();
+    $result = $obj->$method();
+
+    $viewName = $result['view'];
+    $data = $result['data'];
+
+    extract($data);
+
+    require_once "./../View/$viewName.phtml";
 } else {
     require_once '../View/notFound.html';
 }

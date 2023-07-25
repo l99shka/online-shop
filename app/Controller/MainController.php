@@ -5,8 +5,15 @@ namespace App\Controller;
 use App\Model\Product;
 class MainController
 {
-    public function description(): void
+    private Product $product;
+    public function __construct()
     {
+        $this->product = new Product;
+    }
+    public function description(): array
+    {
+        $profileEmail = [];
+
         session_start();
 
         if (!isset($_SESSION['user_id'])) {
@@ -15,9 +22,14 @@ class MainController
             $profileEmail = $_SESSION['user_id']['email'];
         }
 
-        $product = new Product();
-        $products = $product->getAll();
+        $products = $this->product->getAll();
 
-        require_once "../View/main.phtml";
+        return [
+            'view' => 'main',
+            'data' => [
+                'products' => $products,
+                'profileEmail' => $profileEmail
+            ]
+        ];
     }
 }
