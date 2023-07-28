@@ -7,11 +7,6 @@ use App\Model\User;
 
 class UserController
 {
-    private User $user;
-    public function __construct()
-    {
-        $this->user = new User;
-    }
     public function login(): array
     {
         $errors = [];
@@ -23,12 +18,14 @@ class UserController
             if (empty($errors)) {
                 $password = $_POST['password'];
 
-                $userData = $this->user->getEmail($_POST['email']);
+                $user = User::getUserEmail($_POST['email']);
+//                $user->setId($data['id']);
+//                'id' => $user->getId(),
 
-                if (!empty($userData) && password_verify($password, $userData['password'])) {
+                if (!empty($user) && password_verify($password, $user->getPassword())) {
                     session_start();
 
-                    $_SESSION['user_id'] = ['id' => $userData['id'], 'email' => $userData['email'], 'name' => $userData['name']];
+                    $_SESSION['user_id'] = ['id' => $user->getId(), 'email' => $user->getEmail(), 'name' => $user->getName()];
                     header('Location: /main');
                 } else {
                     $errorsLogin = ['errors' => '* Неверный логин или пароль'];
@@ -81,7 +78,9 @@ class UserController
                 $password = $_POST['password'];
                 $hash = password_hash($password, PASSWORD_DEFAULT);
 
-                $this->user->save($_POST['name'], $_POST['email'], $_POST['phone'], $hash);
+                $user = new User($_POST['name'], $_POST['email'], $_POST['phone'], $hash);
+
+                $user->save();
             }
         }
         session_start();
@@ -114,7 +113,7 @@ class UserController
             } elseif (strlen($data['email']) < 2 || strlen($data['email']) > 40) {
                 $errors['email'] = '* E-mail не может быть меньше 2 и больше 40 символов';
             } else {
-                $userData = $this->user->getEmail($_POST['email']);
+                $userData = User::getUserEmail($_POST['email']);
 
                 if (!empty($userData)) {
                     $errors['email'] = '* Такой E-mail уже сущесвует';

@@ -24,7 +24,7 @@ class CartsController
 
         $result = $this->carts->getDescription($_SESSION['user_id']['id']);
 
-        $sumPrice = 'ИТОГО: ' . array_sum(array_column($result, 'total_price')) . ' руб.';
+        $sumPrice = array_sum(array_column($result, 'total_price'));
 
         return [
             'view' => 'carts',
