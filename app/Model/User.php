@@ -39,9 +39,9 @@ class User
 
     }
 
-    public function setId(int $id): int
+    public function setId(int $id): void
     {
-       return $this->id = $id;
+       $this->id = $id;
     }
 
     public function getId():int
