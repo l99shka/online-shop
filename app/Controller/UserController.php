@@ -19,8 +19,6 @@ class UserController
                 $password = $_POST['password'];
 
                 $user = User::getUserEmail($_POST['email']);
-//                $user->setId($data['id']);
-//                'id' => $user->getId(),
 
                 if (!empty($user) && password_verify($password, $user->getPassword())) {
                     session_start();
