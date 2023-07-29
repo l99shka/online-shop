@@ -5,11 +5,6 @@ namespace App\Controller;
 use App\Model\Product;
 class MainController
 {
-    private Product $product;
-    public function __construct()
-    {
-        $this->product = new Product;
-    }
     public function description(): array
     {
         $profileEmail = [];
@@ -22,7 +17,7 @@ class MainController
             $profileEmail = $_SESSION['user_id']['email'];
         }
 
-        $products = $this->product->getAll();
+        $products = Product::getAll();
 
         return [
             'view' => 'main',

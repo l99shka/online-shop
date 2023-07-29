@@ -6,8 +6,9 @@ use PDO;
 
 class Product
 {
-    public function getAll():array
+    public static function getAll():array
     {
         return ConnectFactory::create()->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
+
     }
 }

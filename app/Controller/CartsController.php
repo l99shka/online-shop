@@ -6,11 +6,6 @@ use App\Model\Cart;
 
 class CartsController
 {
-    private Cart $carts;
-    public function __construct()
-    {
-        $this->carts = new Cart;
-    }
     public function getDescription(): array
     {
         $profileName = [];
@@ -22,7 +17,7 @@ class CartsController
             $profileName = $_SESSION['user_id']['name'];
         }
 
-        $result = $this->carts->getDescription($_SESSION['user_id']['id']);
+        $result = Cart::getDescription($_SESSION['user_id']['id']);
 
         $sumPrice = array_sum(array_column($result, 'total_price'));
 
@@ -48,7 +43,10 @@ class CartsController
 
 
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
-            $this->carts->addProduct($_SESSION['user_id']['id'], $_POST['product_id']);
+
+            $product = new Cart($_SESSION['user_id']['id']);
+
+            $product->addProduct($_POST['product_id']);
         }
     }
 
@@ -62,7 +60,9 @@ class CartsController
         }
 
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
-            $this->carts->deleteAll($_SESSION['user_id']['id']);
+            $products = new Cart($_SESSION['user_id']['id']);
+
+            $products->deleteAll();
         }
     }
 
@@ -76,7 +76,9 @@ class CartsController
         }
 
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
-            $this->carts->deleteProduct($_SESSION['user_id']['id'], $_POST['product_id']);
+            $product = new Cart($_SESSION['user_id']['id']);
+
+            $product->deleteProduct($_POST['product_id']);
         }
     }
 }
