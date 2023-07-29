@@ -45,8 +45,10 @@ class CartsController
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
             $product = new Cart($_SESSION['user_id']['id']);
+            $product->setQuantity(1);
+            $product->setProductID($_POST['product_id']);
 
-            $product->addProduct($_POST['product_id']);
+            $product->saveProduct();
         }
     }
 
@@ -77,8 +79,9 @@ class CartsController
 
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $product = new Cart($_SESSION['user_id']['id']);
+            $product->setProductID($_POST['product_id']);
 
-            $product->deleteProduct($_POST['product_id']);
+            $product->deleteProduct();
         }
     }
 }
