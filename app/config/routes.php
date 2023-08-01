@@ -13,5 +13,5 @@ return [
     '/add-product' => [CartsController::class, 'addProduct'],
     '/carts' => [CartsController::class, 'getDescription'],
     '/delete' => [CartsController::class, 'deleteProduct'],
-    '/delete-carts' => [CartsController::class, 'deleteAll']
+    '/delete-carts' => [CartsController::class, 'delete']
 ];

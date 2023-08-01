@@ -23,16 +23,15 @@ class Cart
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function saveProduct(): void
+    public function save(): void
     {
         $stmt = ConnectFactory::create()->prepare("INSERT INTO carts (user_id, product_id, quantity) VALUES (:user_id, :product_id, :quantity)
                                 ON CONFLICT (user_id, product_id) DO UPDATE SET quantity = excluded.quantity + carts.quantity");
 
         $stmt->execute(['user_id' => $this->userID, 'product_id' => $this->getProductID(), 'quantity' => $this->getQuantity()]);
-
     }
 
-    public function deleteAll(): void
+    public function delete(): void
     {
         $stmt = ConnectFactory::create()->prepare('DELETE FROM carts WHERE user_id = :user_id');
         $stmt->execute(['user_id' => $this->userID]);

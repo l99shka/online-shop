@@ -48,11 +48,11 @@ class CartsController
             $product->setQuantity(1);
             $product->setProductID($_POST['product_id']);
 
-            $product->saveProduct();
+            $product->save();
         }
     }
 
-    public function deleteAll(): void
+    public function delete(): void
     {
         session_start();
         if (!isset($_SESSION['user_id'])) {
@@ -64,7 +64,7 @@ class CartsController
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $products = new Cart($_SESSION['user_id']['id']);
 
-            $products->deleteAll();
+            $products->delete();
         }
     }
 

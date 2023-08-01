@@ -36,7 +36,6 @@ class User
     {
         $stmt = ConnectFactory::create()->prepare("INSERT INTO users (name, email, phone, password) VALUES (:name, :email, :phone, :password)");
         $stmt->execute(['name' => $this->name, 'email' => $this->email, 'phone' => $this->phone, 'password' => $this->password]);
-
     }
 
     public function setId(int $id): void
